@@ -1,0 +1,238 @@
+openapi: 3.0.3
+info:
+  title: Geocoder
+  description: |-
+    Provides interface to mapping APIs to convert an address to latitude and longetude coordinates.
+
+    Also provides a reverse search to get an address from latitude and longetude coordinates.
+
+    Currently utilizes MAPS geocoding service at [GeoCode MMAPS](https://geocode.maps.co)
+  contact:
+    email: starkca90@gmail.com
+  license:
+    name: The Unlicense
+    url: https://unlicense.org
+  version: 0.0.0
+servers:
+- url: /api/v1
+tags:
+- name: geocode
+  description: Convert an address to latitude and longitude
+- name: reverse
+  description: Convert latitude and longitude to an address
+paths:
+  /geocode/nena:
+    post:
+      tags:
+      - geocode
+      summary: Get latitude and longitude from NENA formatted address
+      description: Provide a NENA formatted address and get back it's latitude and
+        longitude
+      operationId: geocode_nena
+      requestBody:
+        description: NENA formatted address
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NENA'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/NENA'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NENA'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Geocoded'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Geocoded'
+        "404":
+          description: Unable to locate address
+      x-openapi-router-controller: swagger_server.controllers.geocode_controller
+  /geocode/address:
+    post:
+      tags:
+      - geocode
+      summary: Get latitude and longitude from string containing address
+      description: Provide an address and get back it's latitude and longitude
+      operationId: geocode_addr
+      requestBody:
+        description: String Address
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Address'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Address'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Geocoded'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Geocoded'
+        "404":
+          description: Unable to locate address
+      x-openapi-router-controller: swagger_server.controllers.geocode_controller
+  /reverse:
+    get:
+      tags:
+      - reverse
+      summary: Get address from latitude and longitude
+      description: Provide latitude and longitude and get the address
+      operationId: reverse
+      parameters:
+      - name: lat
+        in: query
+        description: The latitude to do a reverse lookup on
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      - name: lon
+        in: query
+        description: The longitude to do a reverse lookup on
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: number
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reversed'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Reversed'
+        "404":
+          description: Unable to located address
+      x-openapi-router-controller: swagger_server.controllers.reverse_controller
+components:
+  schemas:
+    Source:
+      type: string
+      default: geocoder_maps
+      enum:
+      - geocoder_maps
+    NENA:
+      required:
+      - community_name
+      - house_number
+      - state
+      - street_name
+      type: object
+      properties:
+        house_number:
+          type: string
+          example: "555"
+        house_number_suffix:
+          type: string
+        prefix_directional:
+          type: string
+        street_name:
+          type: string
+          example: 5th
+        street_suffix:
+          type: string
+          example: Ave
+        post_directional:
+          type: string
+        community_name:
+          type: string
+          example: New York
+        state:
+          type: string
+          example: NY
+        zip_code:
+          type: string
+          example: "10017"
+      xml:
+        name: NENA
+    Address:
+      type: object
+      properties:
+        address:
+          type: string
+          example: 555 5th Ave New Yrok NY 10017
+    Geocoded:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/Source'
+        bounds:
+          type: array
+          example:
+          - "40.7557728"
+          - "40.7558728"
+          - "-73.9788465"
+          - "-73.9787465"
+          xml:
+            wrapped: true
+          items:
+            type: string
+            xml:
+              name: bound_coordinate
+        lat:
+          type: string
+          example: "40.7558228"
+        lon:
+          type: string
+          example: "-73.9787965"
+      example:
+        bounds:
+        - "40.7557728"
+        - "40.7558728"
+        - "-73.9788465"
+        - "-73.9787465"
+        lon: "-73.9787965"
+        source: geocoder_maps
+        lat: "40.7558228"
+    Reversed:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/Source'
+        house_number:
+          type: string
+          example: "555"
+        street_name:
+          type: string
+          example: 5th Ave
+        community_name:
+          type: string
+          example: New York
+        state:
+          type: string
+          example: NY
+        zip_code:
+          type: string
+          example: "10017"
+        country_code:
+          type: string
+      example:
+        country_code: country_code
+        community_name: New York
+        house_number: "555"
+        source: geocoder_maps
+        state: NY
+        street_name: 5th Ave
+        zip_code: "10017"
+
