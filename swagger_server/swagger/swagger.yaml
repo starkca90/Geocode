@@ -132,9 +132,15 @@ components:
       default: geocoder_maps
       enum:
       - geocoder_maps
+    Result:
+      type: number
+      enum:
+      - 200
+      - 404
     NENA:
       required:
       - community_name
+      - country
       - house_number
       - state
       - street_name
@@ -164,6 +170,9 @@ components:
         zip_code:
           type: string
           example: "10017"
+        country:
+          type: string
+          example: US
       xml:
         name: NENA
     Address:
@@ -171,12 +180,14 @@ components:
       properties:
         address:
           type: string
-          example: 555 5th Ave New Yrok NY 10017
+          example: 555 5th Ave New York NY 10017
     Geocoded:
       type: object
       properties:
         source:
           $ref: '#/components/schemas/Source'
+        result:
+          $ref: '#/components/schemas/Result'
         bounds:
           type: array
           example:
@@ -204,6 +215,7 @@ components:
         - "-73.9787465"
         lon: "-73.9787965"
         source: geocoder_maps
+        result: 200
         lat: "40.7558228"
     Reversed:
       type: object

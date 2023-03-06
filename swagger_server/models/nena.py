@@ -14,7 +14,7 @@ class NENA(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, house_number: str=None, house_number_suffix: str=None, prefix_directional: str=None, street_name: str=None, street_suffix: str=None, post_directional: str=None, community_name: str=None, state: str=None, zip_code: str=None):  # noqa: E501
+    def __init__(self, house_number: str=None, house_number_suffix: str=None, prefix_directional: str=None, street_name: str=None, street_suffix: str=None, post_directional: str=None, community_name: str=None, state: str=None, zip_code: str=None, country: str=None):  # noqa: E501
         """NENA - a model defined in Swagger
 
         :param house_number: The house_number of this NENA.  # noqa: E501
@@ -35,6 +35,8 @@ class NENA(Model):
         :type state: str
         :param zip_code: The zip_code of this NENA.  # noqa: E501
         :type zip_code: str
+        :param country: The country of this NENA.  # noqa: E501
+        :type country: str
         """
         self.swagger_types = {
             'house_number': str,
@@ -45,7 +47,8 @@ class NENA(Model):
             'post_directional': str,
             'community_name': str,
             'state': str,
-            'zip_code': str
+            'zip_code': str,
+            'country': str
         }
 
         self.attribute_map = {
@@ -57,7 +60,8 @@ class NENA(Model):
             'post_directional': 'post_directional',
             'community_name': 'community_name',
             'state': 'state',
-            'zip_code': 'zip_code'
+            'zip_code': 'zip_code',
+            'country': 'country'
         }
         self._house_number = house_number
         self._house_number_suffix = house_number_suffix
@@ -68,6 +72,7 @@ class NENA(Model):
         self._community_name = community_name
         self._state = state
         self._zip_code = zip_code
+        self._country = country
 
     @classmethod
     def from_dict(cls, dikt) -> 'NENA':
@@ -276,3 +281,26 @@ class NENA(Model):
         """
 
         self._zip_code = zip_code
+
+    @property
+    def country(self) -> str:
+        """Gets the country of this NENA.
+
+
+        :return: The country of this NENA.
+        :rtype: str
+        """
+        return self._country
+
+    @country.setter
+    def country(self, country: str):
+        """Sets the country of this NENA.
+
+
+        :param country: The country of this NENA.
+        :type country: str
+        """
+        if country is None:
+            raise ValueError("Invalid value for `country`, must not be `None`")  # noqa: E501
+
+        self._country = country

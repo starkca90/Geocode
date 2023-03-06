@@ -1,10 +1,10 @@
 import connexion
-import six
 
 from swagger_server.models.address import Address  # noqa: E501
 from swagger_server.models.geocoded import Geocoded  # noqa: E501
 from swagger_server.models.nena import NENA  # noqa: E501
-from swagger_server import util
+
+from swagger_server.services.maps import search
 
 
 def geocode_addr(body):  # noqa: E501
@@ -19,7 +19,10 @@ def geocode_addr(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Address.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    res = search.search_query(body.address)
+
+    return res, res['result']
 
 
 def geocode_nena(body):  # noqa: E501
@@ -34,4 +37,7 @@ def geocode_nena(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = NENA.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    res = search.search_nena(body)
+
+    return res, res['result']

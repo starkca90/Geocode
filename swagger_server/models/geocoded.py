@@ -6,6 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
+from swagger_server.models.result import Result  # noqa: F401,E501
 from swagger_server.models.source import Source  # noqa: F401,E501
 from swagger_server import util
 
@@ -15,11 +16,13 @@ class Geocoded(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, source: Source=None, bounds: List[str]=None, lat: str=None, lon: str=None):  # noqa: E501
+    def __init__(self, source: Source=None, result: Result=None, bounds: List[str]=None, lat: str=None, lon: str=None):  # noqa: E501
         """Geocoded - a model defined in Swagger
 
         :param source: The source of this Geocoded.  # noqa: E501
         :type source: Source
+        :param result: The result of this Geocoded.  # noqa: E501
+        :type result: Result
         :param bounds: The bounds of this Geocoded.  # noqa: E501
         :type bounds: List[str]
         :param lat: The lat of this Geocoded.  # noqa: E501
@@ -29,6 +32,7 @@ class Geocoded(Model):
         """
         self.swagger_types = {
             'source': Source,
+            'result': Result,
             'bounds': List[str],
             'lat': str,
             'lon': str
@@ -36,11 +40,13 @@ class Geocoded(Model):
 
         self.attribute_map = {
             'source': 'source',
+            'result': 'result',
             'bounds': 'bounds',
             'lat': 'lat',
             'lon': 'lon'
         }
         self._source = source
+        self._result = result
         self._bounds = bounds
         self._lat = lat
         self._lon = lon
@@ -76,6 +82,27 @@ class Geocoded(Model):
         """
 
         self._source = source
+
+    @property
+    def result(self) -> Result:
+        """Gets the result of this Geocoded.
+
+
+        :return: The result of this Geocoded.
+        :rtype: Result
+        """
+        return self._result
+
+    @result.setter
+    def result(self, result: Result):
+        """Sets the result of this Geocoded.
+
+
+        :param result: The result of this Geocoded.
+        :type result: Result
+        """
+
+        self._result = result
 
     @property
     def bounds(self) -> List[str]:

@@ -44,7 +44,8 @@ class TestGeocodeController(BaseTestCase):
                     post_directional='post_directional_example',
                     community_name='community_name_example',
                     state='state_example',
-                    zip_code='zip_code_example')
+                    zip_code='zip_code_example',
+                    country='country_example')
         response = self.client.open(
             '/geocode/nena',
             method='POST',
