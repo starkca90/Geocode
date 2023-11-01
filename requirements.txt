@@ -7,3 +7,4 @@ Flask~=2.2.3
 six~=1.16.0
 chevron~=0.14.0
 requests~=2.28.2
+werkzeug>=3.0.1 # not directly required, pinned by Snyk to avoid a vulnerability
