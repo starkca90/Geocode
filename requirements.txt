@@ -1,6 +1,6 @@
 connexion[swagger-ui] >=2.6.0
 python_dateutil==2.8.2
-setuptools==67.5.1
+setuptools==70.0.0
 swagger-ui-bundle >= 0.0.2
 
 Flask~=2.2.3
